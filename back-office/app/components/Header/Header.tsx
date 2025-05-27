@@ -18,7 +18,7 @@ export default function Header(): JSX.Element {
             <div className={styles.headerContent}>
                 <div className={styles.logoContainer}>
                     <Link href={'/'}>
-                        <Image src="/logo-with-text.svg" alt="Gym Logo" width={200} height={100} />
+                        <Image src="/logo-with-text.svg" alt="Gym Logo" width={150} height={100} />
                     </Link>
                 </div>
 
