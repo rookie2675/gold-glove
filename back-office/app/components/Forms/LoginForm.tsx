@@ -1,26 +1,34 @@
+'use client';
+
 import styles from './LoginForm.module.css';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '../../schemas/login-form-schema';
 import ErrorIcon from '../Icons/ErrorIcon';
 import { LoginFormFields } from '../../types/login-form-fields';
+import { AuthenticationService } from '../../services/authentication-service';
+import { useRouter } from 'next/navigation';
 
-interface Props {
-    onSubmit: (data: LoginFormFields) => void;
-}
+export default function LoginForm() {
+    const router = useRouter();
 
-export default function LoginForm(props: Props) {
     const {
         register,
         handleSubmit,
         formState: { errors },
+        getValues,
     } = useForm<LoginFormFields>({
         resolver: yupResolver(loginSchema),
         mode: 'onBlur',
     });
 
-    function submitForm(data: LoginFormFields) {
-        props.onSubmit(data);
+    async function submitForm() {
+        const values = getValues();
+        const success = await AuthenticationService.login(values);
+
+        if (success) {
+            router.push('/');
+        }
     }
 
     return (
