@@ -9,18 +9,18 @@ The app will be used exclusively by the gym owner.
 
 ## 2. Tech Stack & Architecture
 
-- **Framework:** Next.js (App Router)  
-- **Authentication:** NextAuth.js with Credentials Provider (owner login)  
-- **Database:** SQLite managed with Prisma ORM  
-- **Styling:** Plain CSS (no CSS frameworks)  
-- **Tables:** TanStack Table for table logic with custom CSS styling  
+- **Framework:** Next.js (App Router)
+- **Authentication:** NextAuth.js with Credentials Provider (owner login)
+- **Database:** SQLite managed with Prisma ORM
+- **Styling:** Plain CSS (no CSS frameworks)
+- **Tables:** TanStack Table for table logic with custom CSS styling
 - **Hosting:** Vercel
 
 ---
 
 ## 3. Authentication & Security
 
-- Full site protection — all pages require authentication  
+- Full site protection — all pages require authentication
 - Owner logs in with credentials stored in environment variables
 
 ---
@@ -29,14 +29,14 @@ The app will be used exclusively by the gym owner.
 
 ### Shared Base Type: Person
 
-| Field         | Type     | Notes                        |
-| ------------- | -------- | ----------------------------|
-| `id`          | string   | Unique identifier            |
-| `name`        | string   | Full name                   |
-| `email`       | string   | Contact email               |
-| `phone`       | string?  | Optional phone number       |
-| `dateOfBirth` | Date     | Date of birth               |
-| `nif`         | string   | Tax identification number   |
+| Field         | Type    | Notes                     |
+| ------------- | ------- | ------------------------- |
+| `id`          | string  | Unique identifier         |
+| `name`        | string  | Full name                 |
+| `email`       | string  | Contact email             |
+| `phone`       | string? | Optional phone number     |
+| `dateOfBirth` | Date    | Date of birth             |
+| `nif`         | string  | Tax identification number |
 
 ### Customer (extends Person)
 
@@ -73,29 +73,29 @@ model Employee {
 
 ## 5. UI & Navigation
 
-- **Header** present on all authenticated pages  
-- Header includes:  
-  - Gym logo (left)  
-  - Navigation links: **Customers** and **Employees** pages  
-- Plain CSS styling for header and navigation  
+- **Header** present on all authenticated pages
+- Header includes:
+    - Gym logo (left)
+    - Navigation links: **Customers** and **Employees** pages
+- Plain CSS styling for header and navigation
 - Highlight active page link (UX improvement)
 
 ---
 
 ## 6. Tables
 
-- Use **TanStack Table** for table logic (sorting, pagination, filtering)  
+- Use **TanStack Table** for table logic (sorting, pagination, filtering)
 - Tables styled with plain CSS for a clean, modern look
 
 ---
 
 ## 7. Color Palette
 
-| Color Hex | Name       | Usage                         |
-| --------- | ---------- | -----------------------------|
-| `#EEB348` | Gold       | Primary color, highlights     |
-| `#FFE9C1` | Light Gold | Backgrounds, accents          |
-| `#231F20` | Charcoal   | Text, headers, dark elements  |
+| Color Hex | Name       | Usage                             |
+| --------- | ---------- | --------------------------------- |
+| `#EEB348` | Gold       | Primary color, highlights         |
+| `#FFE9C1` | Light Gold | Backgrounds, accents              |
+| `#231F20` | Charcoal   | Text, headers, dark elements      |
 | `#DBDBDB` | Light Gray | Borders, dividers, subtle accents |
 
 ---
@@ -108,10 +108,10 @@ model Employee {
 
 ## 9. Future Considerations
 
-- Responsive design for mobile  
-- Accessibility improvements  
-- Additional features like filtering, search, export  
+- Responsive design for mobile
+- Accessibility improvements
+- Additional features like filtering, search, export
 
 ---
 
-*Document last updated: 2025-05-27*
+_Document last updated: 2025-05-27_
