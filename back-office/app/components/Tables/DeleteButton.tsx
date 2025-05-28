@@ -26,7 +26,7 @@ export default function DeleteButton(props: Props): React.JSX.Element {
     }
 
     return (
-        <button onClick={onClick} className={`${styles.iconButton} ${styles.deleteButton}`} aria-label={`Eliminar ${props.name}`} title="Eliminar">
+        <button onClick={onClick} className={styles.button} aria-label={`Eliminar ${props.name}`} title="Eliminar">
             <TrashIcon className={styles.icon} />
         </button>
     );
