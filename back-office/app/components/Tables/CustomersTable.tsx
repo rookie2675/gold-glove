@@ -16,12 +16,14 @@ import {
 import styles from '@/app/components/Tables/CustomersTable.module.css';
 import { Customer } from '@/app/types/customer';
 import { formatDate } from '@/app/utils/date';
+import DeleteButton from './DeleteButton';
 
 interface Props {
     data: Customer[];
     isLoading?: boolean;
     onEdit: (customer: Customer) => void;
     onDelete: (customer: Customer) => Promise<void>;
+    onAddNew: () => void;
 }
 
 export default function CustomersTable(props: Props) {
@@ -31,22 +33,22 @@ export default function CustomersTable(props: Props) {
         () => [
             {
                 accessorKey: 'name',
-                header: 'Nome',
+                header: 'NOME',
                 cell: (info: CellContext<Customer, any>) => info.getValue() as string,
             },
             {
                 accessorKey: 'email',
-                header: 'Email',
+                header: 'EMAIL',
                 cell: (info: CellContext<Customer, any>) => info.getValue() as string,
             },
             {
                 accessorKey: 'phone',
-                header: 'Telemóvel',
+                header: 'TELEMOVEL',
                 cell: (info: CellContext<Customer, any>) => (info.getValue() as string) || '-',
             },
             {
                 accessorKey: 'dateOfBirth',
-                header: 'Data de Nascimento',
+                header: 'DATA DE NASCIMENTO',
                 cell: (info: CellContext<Customer, any>) => formatDate(info.getValue() as string),
             },
             {
@@ -56,7 +58,7 @@ export default function CustomersTable(props: Props) {
             },
             {
                 accessorKey: 'lastPaymentDate',
-                header: 'Último Pagamento',
+                header: 'ÚLTIMO PAGAMENTO',
                 cell: (info: CellContext<Customer, any>) => {
                     const value = info.getValue() as string | Date | null | undefined;
                     return value ? formatDate(value as string) : '-';
@@ -64,31 +66,13 @@ export default function CustomersTable(props: Props) {
             },
             {
                 id: 'actions',
-                header: 'Ações',
+                header: 'AÇÕES',
                 cell: (info: CellContext<Customer, any>) => (
                     <div className={styles.actions}>
                         <button onClick={() => props.onEdit(info.row.original)} className={styles.iconButton} aria-label={`Editar ${info.row.original.name}`}>
                             <PencilIcon className={styles.icon} />
                         </button>
-                        <button
-                            onClick={async (e) => {
-                                e.stopPropagation();
-                                if (window.confirm(`Tem a certeza que deseja eliminar o cliente ${info.row.original.name}?`)) {
-                                    try {
-                                        await props.onDelete(info.row.original);
-                                        toast.success('Cliente eliminado com sucesso');
-                                    } catch (error) {
-                                        console.error('Error deleting customer:', error);
-                                        toast.error('Ocorreu um erro ao eliminar o cliente');
-                                    }
-                                }
-                            }}
-                            className={`${styles.iconButton} ${styles.deleteButton}`}
-                            aria-label={`Eliminar ${info.row.original.name}`}
-                            title="Eliminar"
-                        >
-                            <TrashIcon className={styles.icon} />
-                        </button>
+                        <DeleteButton name={info.row.original.name} customer={info.row.original} onDelete={props.onDelete} />
                     </div>
                 ),
             },
@@ -118,13 +102,18 @@ export default function CustomersTable(props: Props) {
     }
 
     return (
-        <div className={styles.container}>
+        <>
             <div className={styles.pagination}>
                 <div className={styles.paginationControls}>
-                    <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className={styles.paginationButton}>
-                        Previous
+                    <button onClick={props.onAddNew} className={`${styles.headerButton} ${styles.addButton}`}>
+                        + NOVO CLIENTE
                     </button>
-                    <span>
+                </div>
+                <div className={styles.paginationControls}>
+                    <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className={styles.paginationButton}>
+                        Anterior
+                    </button>
+                    <span className={styles.pageInfo}>
                         Page{' '}
                         <strong>
                             {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
@@ -189,6 +178,6 @@ export default function CustomersTable(props: Props) {
                     </tbody>
                 </table>
             </div>
-        </div>
+        </>
     );
 }

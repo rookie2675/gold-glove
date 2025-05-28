@@ -1,23 +1,11 @@
-.container {
-    width: 100%;
-    margin-top: 1.5rem;
-    overflow-x: auto;
-}
-
-.tableWrapper {
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
 .table {
     width: 100%;
+    font-size: 0.8rem;
     border-collapse: collapse;
-    font-size: 0.875rem;
 }
 
 .th {
-    padding: 0.75rem 1rem;
+    padding: 0.5rem;
     color: var(--charcoal);
     background-color: var(--gold);
 }
@@ -28,18 +16,11 @@
 }
 
 .th.sortable:hover {
-    background-color: #f5e0b3;
+    background-color: var(--light-gold);
 }
 
 .th.sorted {
-    background-color: #eeb348;
-    color: #231f20;
-}
-
-.headerContent {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    background-color: var(--light-gold);
 }
 
 .sortIcon {
@@ -48,30 +29,13 @@
 }
 
 .actions {
-    display: flex;
     gap: 0.5rem;
+    display: flex;
     justify-content: center;
 }
 
 .iconButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     padding: 0.375rem;
-    border-radius: 4px;
-    background-color: transparent;
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.iconButton:hover {
-    background-color: #f5f5f5;
-}
-
-.iconButton.deleteButton:hover {
-    background-color: #fee2e2;
-    color: #dc2626;
 }
 
 .icon {
@@ -93,22 +57,8 @@
 }
 
 .td {
-    padding: 1rem;
+    padding: 0.5rem;
     vertical-align: middle;
-}
-
-.editButton {
-    background-color: #eeb348;
-    color: #231f20;
-    border: none;
-    border-radius: 4px;
-    padding: 0.375rem 0.75rem;
-    font-size: 0.8125rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition:
-        background-color 0.2s,
-        transform 0.1s;
 }
 
 .editButton:hover {
@@ -121,30 +71,16 @@
 
 .pagination {
     display: flex;
-    justify-content: space-between;
+    margin: 1rem 0;
     align-items: center;
-    margin-top: 1.5rem;
-    padding: 0 0.5rem;
+    justify-content: space-between;
 }
 
 .paginationControls {
+    gap: 0.5rem;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 1rem;
-}
-
-.paginationButton {
-    background-color: #f0f0f0;
-    border: 1px solid #d1d5db;
-    border-radius: 4px;
-    padding: 0.375rem 0.75rem;
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.paginationButton:hover:not(:disabled) {
-    background-color: #e5e7eb;
 }
 
 .paginationButton:disabled {
@@ -162,10 +98,6 @@
 
 .pageSizeSelect {
     padding: 0.375rem 0.5rem;
-    border: 1px solid #d1d5db;
-    border-radius: 4px;
-    background-color: white;
-    cursor: pointer;
 }
 
 .loading,
