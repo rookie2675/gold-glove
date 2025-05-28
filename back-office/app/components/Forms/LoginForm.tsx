@@ -1,4 +1,5 @@
 'use client';
+
 import styles from './LoginForm.module.css';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -28,7 +29,7 @@ export default function LoginForm() {
 
             if (success) {
                 toast.success('Login realizado com sucesso!');
-                router.push('/');
+                router.push('/customers');
             } else {
                 toast.error('Email ou senha incorretos. Tente novamente.');
             }
