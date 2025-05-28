@@ -6,7 +6,7 @@ import CustomerForm from '../../src/components/customers/CustomerForm';
 import Modal from '../../src/components/ui/Modal';
 import styles from './page.module.css';
 import CustomersTable from '../components/Tables/CustomersTable';
-import { createCustomer } from '../services/customer-service';
+import { createCustomer, deleteCustomer, updateCustomer } from '../services/customer-service';
 
 export default function CustomersPage() {
     const [customers, setCustomers] = useState<Customer[]>([]);
@@ -41,70 +41,44 @@ export default function CustomersPage() {
     async function handleCreateCustomer(data: CustomerFormData) {
         try {
             await createCustomer(data);
-
             setIsModalOpen(false);
             await fetchCustomers();
             setCurrentCustomer(null);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error creating customer:', error);
             setError(error instanceof Error ? error.message : 'Failed to create customer');
         }
     }
 
-    // Handle updating an existing customer
-    const handleUpdateCustomer = async (data: CustomerFormData) => {
+    async function handleDeleteCustomer(customer: Customer) {
+        try {
+            await deleteCustomer(customer.id);
+            await fetchCustomers();
+        } catch (error: any) {
+            console.error('Error deleting customer:', error);
+            throw error;
+        }
+    }
+
+    async function handleUpdateCustomer(data: CustomerFormData) {
         if (!currentCustomer?.id) return;
 
         try {
-            const response = await fetch(`/api/customers/${currentCustomer.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to update customer');
-            }
-
-            // Refresh the customers list
+            await updateCustomer(currentCustomer.id, data);
             await fetchCustomers();
             setIsModalOpen(false);
             setCurrentCustomer(null);
-        } catch (err) {
-            console.error('Error updating customer:', err);
-            setError(err instanceof Error ? err.message : 'Failed to update customer');
+        } catch (error: any) {
+            console.error('Error updating customer:', error);
+            setError(error instanceof Error ? error.message : 'Failed to update customer');
         }
-    };
+    }
 
-    // Handle form submission (create or update)
     const handleSubmit = async (data: CustomerFormData) => {
         if (currentCustomer?.id) {
             await handleUpdateCustomer(data);
         } else {
             await handleCreateCustomer(data);
-        }
-    };
-
-    // Handle deleting a customer
-    const handleDeleteCustomer = async (customer: Customer) => {
-        try {
-            const response = await fetch(`/api/customers/${customer.id}`, {
-                method: 'DELETE',
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to delete customer');
-            }
-
-            // Refresh the customers list
-            await fetchCustomers();
-        } catch (err) {
-            console.error('Error deleting customer:', err);
-            throw err; // This will be caught by the error boundary in the table
         }
     };
 
