@@ -1,16 +1,36 @@
+'use client';
+
 import { LoginFormFields } from '../types/login-form-fields';
 
-export class AuthenticationService {
-    static async login(credentials: LoginFormFields): Promise<boolean> {
-        const email = process.env.NEXT_PUBLIC_LOGIN_EMAIL;
-        const password = process.env.NEXT_PUBLIC_LOGIN_PASSWORD;
+export async function login(credentials: LoginFormFields): Promise<boolean> {
+    try {
+        const response = await fetch('/api/authentication/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(credentials),
+            credentials: 'include',
+        });
 
-        if (credentials.email === email && credentials.password === password) {
-            console.log('Login successful!');
-            return true;
+        if (response.ok) {
+            const data = await response.json();
+            return data.success;
+        } else {
+            return false;
         }
-
-        console.log('Login failed: Invalid credentials');
+    } catch (error) {
+        console.error('Login error:', error);
         return false;
+    }
+}
+
+export async function logout(): Promise<void> {
+    try {
+        await fetch('/api/authentication/logout', {
+            method: 'POST',
+        });
+    } catch (error) {
+        console.error('Logout error:', error);
     }
 }
