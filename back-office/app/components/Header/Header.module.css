@@ -25,20 +25,3 @@
     margin-left: auto;
     justify-content: right;
 }
-
-.navLink {
-    transition: color 0.2s ease;
-}
-
-.active {
-    color: #eeb348;
-}
-
-.navLink:hover,
-.logoutLink:hover {
-    color: #eeb348;
-}
-
-.logoutLink {
-    transition: color 0.2s ease;
-}
