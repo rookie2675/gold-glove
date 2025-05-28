@@ -1,6 +1,8 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { toast } from 'sonner';
+import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import {
     useReactTable,
     getCoreRowModel,
@@ -19,6 +21,7 @@ interface Props {
     data: Customer[];
     isLoading?: boolean;
     onEdit: (customer: Customer) => void;
+    onDelete: (customer: Customer) => Promise<void>;
 }
 
 export default function CustomersTable(props: Props) {
@@ -63,9 +66,30 @@ export default function CustomersTable(props: Props) {
                 id: 'actions',
                 header: 'Ações',
                 cell: (info: CellContext<Customer, any>) => (
-                    <button onClick={() => props.onEdit(info.row.original)} className={styles.editButton} aria-label={`Editar ${info.row.original.name}`}>
-                        Editar
-                    </button>
+                    <div className={styles.actions}>
+                        <button onClick={() => props.onEdit(info.row.original)} className={styles.iconButton} aria-label={`Editar ${info.row.original.name}`}>
+                            <PencilIcon className={styles.icon} />
+                        </button>
+                        <button
+                            onClick={async (e) => {
+                                e.stopPropagation();
+                                if (window.confirm(`Tem a certeza que deseja eliminar o cliente ${info.row.original.name}?`)) {
+                                    try {
+                                        await props.onDelete(info.row.original);
+                                        toast.success('Cliente eliminado com sucesso');
+                                    } catch (error) {
+                                        console.error('Error deleting customer:', error);
+                                        toast.error('Ocorreu um erro ao eliminar o cliente');
+                                    }
+                                }
+                            }}
+                            className={`${styles.iconButton} ${styles.deleteButton}`}
+                            aria-label={`Eliminar ${info.row.original.name}`}
+                            title="Eliminar"
+                        >
+                            <TrashIcon className={styles.icon} />
+                        </button>
+                    </div>
                 ),
             },
         ],

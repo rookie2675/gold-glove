@@ -47,6 +47,38 @@
     font-size: 0.75rem;
 }
 
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.iconButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.375rem;
+    border-radius: 4px;
+    background-color: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.iconButton:hover {
+    background-color: #f5f5f5;
+}
+
+.iconButton.deleteButton:hover {
+    background-color: #fee2e2;
+    color: #dc2626;
+}
+
+.icon {
+    width: 1rem;
+    height: 1rem;
+}
+
 .tr {
     border-bottom: 1px solid var(--charcoal);
     transition: background-color 0.2s;
