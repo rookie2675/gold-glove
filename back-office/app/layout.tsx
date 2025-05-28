@@ -3,8 +3,11 @@ import { Syne } from 'next/font/google';
 import './globals.css';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import { Toaster } from 'sonner';
 
-const syne = Syne({});
+const syne = Syne({
+    subsets: ['latin'],
+});
 
 export const metadata: Metadata = {
     title: 'Gold Glove',
@@ -18,6 +21,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <Header />
                 <main>{children}</main>
                 <Footer />
+                <Toaster />
             </body>
         </html>
     );
