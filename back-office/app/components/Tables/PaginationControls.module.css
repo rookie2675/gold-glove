@@ -1,0 +1,45 @@
+.container {
+    gap: 0.5rem;
+    display: flex;
+    padding: 0.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.numbers {
+    gap: 0.5rem;
+    display: flex;
+}
+
+.pageNumber {
+    padding: 0;
+    border: none;
+    color: var(--white);
+}
+
+.pageNumber:hover {
+    color: var(--gold);
+    background-color: transparent;
+}
+
+.pageNumber.activePage {
+    color: var(--gold);
+}
+
+.paginationButton {
+    border: none;
+    cursor: pointer;
+    color: var(--white);
+    padding: 0;
+    background-color: transparent;
+}
+
+.paginationButton:hover {
+    color: var(--gold);
+    background-color: transparent;
+}
+
+.paginationIcon {
+    width: 1rem;
+    height: 1rem;
+}
