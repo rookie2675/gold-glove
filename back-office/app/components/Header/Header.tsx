@@ -5,6 +5,8 @@ import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import styles from './Header.module.css';
 import { JSX } from 'react';
+import { logout } from '@/app/services/authentication-service';
+import NavigationLink from './NavigationLink';
 
 function isPathActive(pathname: string, path: string): boolean {
     return pathname === path;
@@ -13,36 +15,27 @@ function isPathActive(pathname: string, path: string): boolean {
 export default function Header(): JSX.Element {
     const pathname: string = usePathname();
 
+    async function onLogoutButtonClick() {
+        await logout();
+        window.location.href = '/login';
+    }
+
     return (
         <header className={styles.header}>
             <div className={styles.headerContent}>
                 <div className={styles.logoContainer}>
                     <Link href={'/'}>
-                        <Image src="/logo-with-text.svg" alt="Gym Logo" width={200} height={100} />
+                        <Image src="/logo-with-text.svg" alt="Gym Logo" width={150} height={100} priority />
                     </Link>
                 </div>
-
                 <nav className={styles.navigationLinksContainer}>
-                    <Link
-                        href="/customers"
-                        className={styles.navLink + (isPathActive(pathname, '/customers') ? ' ' + styles.active : '')}
-                        aria-current={isPathActive(pathname, '/customers') ? 'page' : undefined}
-                    >
-                        CLIENTES
-                    </Link>
-                    <Link
-                        href="/employees"
-                        className={styles.navLink + (isPathActive(pathname, '/employees') ? ' ' + styles.active : '')}
-                        aria-current={isPathActive(pathname, '/employees') ? 'page' : undefined}
-                    >
-                        EMPREGADOS
-                    </Link>
+                    <NavigationLink href="/customers" label="CLIENTES" isPathActive={isPathActive(pathname, '/customers')} />
+                    <NavigationLink href="/employees" label="EMPREGADOS" isPathActive={isPathActive(pathname, '/employees')} />
                 </nav>
-
                 <div className={styles.logoutContainer}>
-                    <Link href="/logout" className={styles.logoutLink} aria-label="Logout">
+                    <button onClick={onLogoutButtonClick} aria-label="Logout">
                         LOGOUT
-                    </Link>
+                    </button>
                 </div>
             </div>
         </header>

@@ -1,8 +1,10 @@
 :root {
     --gold: #eeb348;
+    --error: #dc3232;
     --white: #dbdbdb;
     --black: #000000;
     --charcoal: #231f20;
+    --dark-gold: #4d3408;
     --light-gold: #ffe9c1;
 }
 
@@ -32,4 +34,48 @@ main {
 a {
     color: inherit;
     text-decoration: none;
+}
+
+input {
+    border: none;
+    border-radius: 8px;
+    padding: 1rem;
+
+    width: 100%;
+    font-size: 1rem;
+
+    color: var(--dark-gold);
+    background-color: var(--light-gold);
+}
+
+input:focus {
+    outline: 2px solid var(--dark-gold);
+}
+
+button {
+    font-weight: bold;
+    border: 2px solid var(--gold);
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+
+    cursor: pointer;
+
+    color: var(--gold);
+    background-color: transparent;
+    transition: all 0.2s;
+}
+
+button:hover {
+    color: var(--charcoal);
+    background-color: var(--gold);
+}
+
+[data-sonner-toast][data-type='error'] {
+    background-color: var(--error) !important;
+    color: white !important;
+    border-color: var(--error) !important;
+}
+
+[data-sonner-toast][data-type='error'] [data-icon] {
+    color: white !important;
 }
