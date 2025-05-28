@@ -2,12 +2,10 @@ import { jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
-const protectedRoutes = ['/employess', '/customers'];
 const publicRoutes = ['/login', '/api/authentication/login'];
 
 export default async function middleware(req: NextRequest) {
     const path = req.nextUrl.pathname;
-    const isProtectedRoute = protectedRoutes.includes(path);
     const isPublicRoute = publicRoutes.includes(path);
 
     const cookie = (await cookies()).get('session')?.value;
@@ -21,12 +19,8 @@ export default async function middleware(req: NextRequest) {
         console.error('Session verification failed:', error);
     }
 
-    if (isProtectedRoute && (!session || !session.payload.authenticated)) {
+    if (!isPublicRoute && (!session || !session.payload.authenticated)) {
         return NextResponse.redirect(new URL('/login', req.nextUrl));
-    }
-
-    if (isPublicRoute && session?.payload.authenticated && !req.nextUrl.pathname.startsWith('/employees')) {
-        return NextResponse.redirect(new URL('/employees', req.nextUrl));
     }
 
     return NextResponse.next();
