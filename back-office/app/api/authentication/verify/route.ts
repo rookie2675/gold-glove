@@ -1,26 +1,20 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
+import { jwtVerify } from 'jose';
 
 export async function GET() {
     const requestCookies = await cookies();
+    const token = requestCookies.get('session')?.value;
+
+    if (!token) {
+        return NextResponse.json({ authenticated: false }, { status: 401 });
+    }
 
     try {
-        const token = requestCookies.get('authentication-token')?.value;
-
-        if (!token) {
-            return NextResponse.json({ authenticated: false }, { status: 401 });
-        }
-
-        const secret = process.env.JWT_SECRET;
-
-        if (!secret) {
-            return NextResponse.json({ error: 'JWT_SECRET not configured' }, { status: 500 });
-        }
-
-        jwt.verify(token, secret);
+        await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET!));
         return NextResponse.json({ authenticated: true });
-    } catch {
+    } catch (error) {
+        console.error('Token verification failed:', error);
         return NextResponse.json({ authenticated: false }, { status: 401 });
     }
 }

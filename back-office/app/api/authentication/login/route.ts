@@ -1,44 +1,47 @@
-import jwt from 'jsonwebtoken';
-import { NextResponse } from 'next/server';
+import { JWTPayload } from 'jose';
+import { SignJWT } from 'jose/jwt/sign';
+import { cookies } from 'next/headers';
+import { NextRequest, NextResponse } from 'next/server';
 
 interface LoginRequest {
     email: string;
     password: string;
 }
 
-interface JwtPayload {
-    email: string;
-    authenticated: boolean;
-}
+export async function POST(request: NextRequest): Promise<NextResponse> {
+    if (!process.env.JWT_SECRET) {
+        console.error('JWT_SECRET is not configured');
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    }
 
-export async function POST(request: Request): Promise<NextResponse> {
     const loginRequest: LoginRequest = await request.json();
+    const invalidCredentialsResponse: NextResponse = NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
 
     if (!loginRequest.email || !loginRequest.password) {
-        const error: string = 'Invalid credentials';
-        const status: number = 401;
-        return NextResponse.json({ error }, { status });
+        return invalidCredentialsResponse;
     }
 
     if (loginRequest.email !== process.env.LOGIN_EMAIL || loginRequest.password !== process.env.LOGIN_PASSWORD) {
-        const error: string = 'Invalid credentials';
-        const status: number = 401;
-        return NextResponse.json({ error }, { status });
+        return invalidCredentialsResponse;
     }
 
-    const payload: JwtPayload = {
-        email: loginRequest.email,
+    const payload: JWTPayload = {
         authenticated: true,
+        email: loginRequest.email,
+        iat: Math.floor(Date.now() / 1000),
     };
 
-    if (!process.env.JWT_SECRET) {
-        return NextResponse.json({ error: 'JWT_SECRET is not configured' }, { status: 500 });
-    }
+    const session = await new SignJWT(payload)
+        .setIssuedAt()
+        .setExpirationTime('7d')
+        .setProtectedHeader({ alg: 'HS256' })
+        .sign(new TextEncoder().encode(process.env.JWT_SECRET));
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
     const response = NextResponse.json({ success: true });
 
-    response.cookies.set('authentication-token', token, {
+    const cookieStore = await cookies();
+
+    cookieStore.set('session', session, {
         httpOnly: true,
         sameSite: 'strict',
         maxAge: 7 * 24 * 60 * 60,

@@ -1,17 +1,32 @@
+import { jwtVerify } from 'jose';
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
-export function middleware(request: NextRequest) {
-    const publicPaths = ['/login', '/api/authentication/login'];
-    const isPublicPath = publicPaths.some((path) => request.nextUrl.pathname.startsWith(path));
+const protectedRoutes = ['/employess', '/customers'];
+const publicRoutes = ['/login', '/api/authentication/login'];
 
-    if (isPublicPath) {
-        return NextResponse.next();
+export default async function middleware(req: NextRequest) {
+    const path = req.nextUrl.pathname;
+    const isProtectedRoute = protectedRoutes.includes(path);
+    const isPublicRoute = publicRoutes.includes(path);
+
+    const cookie = (await cookies()).get('session')?.value;
+    let session;
+
+    try {
+        if (cookie) {
+            session = await jwtVerify(cookie, new TextEncoder().encode(process.env.JWT_SECRET!));
+        }
+    } catch (error) {
+        console.error('Session verification failed:', error);
     }
 
-    const token = request.cookies.get('authentication-token')?.value;
+    if (isProtectedRoute && (!session || !session.payload.authenticated)) {
+        return NextResponse.redirect(new URL('/login', req.nextUrl));
+    }
 
-    if (!token) {
-        return NextResponse.redirect(new URL('/login', request.url));
+    if (isPublicRoute && session?.payload.authenticated && !req.nextUrl.pathname.startsWith('/employees')) {
+        return NextResponse.redirect(new URL('/employees', req.nextUrl));
     }
 
     return NextResponse.next();
