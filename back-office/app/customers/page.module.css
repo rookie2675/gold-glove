@@ -1,7 +1,29 @@
 .container {
     height: 100%;
+    position: relative;
+}
+
+.container::before {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    content: '';
+    opacity: 0.3;
+    position: absolute;
+    pointer-events: none;
     background-size: contain;
     background-position: right;
     background-repeat: no-repeat;
     background-image: url('/background-3.png');
+}
+
+.error {
+    background-color: #fef2f2;
+    color: #b91c1c;
+    padding: 1rem;
+    border-radius: 0.375rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #fecaca;
 }
