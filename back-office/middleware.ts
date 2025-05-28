@@ -19,13 +19,13 @@ export function middleware(request: NextRequest) {
 
 export const config = {
     matcher: [
-        /*
+        /**
          * Match all request paths except for the ones starting with:
          * - _next/static (static files)
          * - _next/image (image optimization files)
          * - favicon.ico (favicon file)
          * - icon.svg and other icon files
          */
-        '/((?!_next/static|_next/image|favicon.ico|icon.svg|.*\\.ico|.*\\.png|.*\\.svg).*)',
+        '/((?!_next/static|_next/image|favicon.ico|icon.svg|.*\\.ico|.*\\.png|.*\\.svg|.*\\.jpg|.*\\.jpeg).*)',
     ],
 };

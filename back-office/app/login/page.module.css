@@ -1,8 +1,9 @@
 .container {
     height: 100%;
     display: flex;
-    background-image: url('/background.webp');
+    align-items: center;
+    background-size: contain;
     background-position: right;
     background-repeat: no-repeat;
-    align-items: center;
+    background-image: url('/background.jpg');
 }
