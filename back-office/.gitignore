@@ -7,3 +7,6 @@ next-env.d.ts
 
 # Environment variables
 .env.local
+
+# Prisma
+dev.db

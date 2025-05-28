@@ -7,12 +7,15 @@
         "build": "next build",
         "start": "next start",
         "format": "prettier . --write",
-        "lint": "next lint"
+        "lint": "next lint",
+        "seed": "ts-node prisma/seed.ts",
+        "prisma:generate": "prisma generate"
     },
     "dependencies": {
         "@hookform/resolvers": "^5.0.1",
         "jose": "^6.0.11",
         "next": "15.3.2",
+        "prisma": "^6.8.2",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "react-hook-form": "^7.56.4",
@@ -21,6 +24,7 @@
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3",
+        "@prisma/client": "^6.8.2",
         "@types/jsonwebtoken": "^9.0.9",
         "@types/node": "^22.15.23",
         "@types/react": "^19.1.6",
