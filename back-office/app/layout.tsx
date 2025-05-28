@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Syne } from 'next/font/google';
 import './globals.css';
 import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
 import { Toaster } from 'sonner';
 
 const syne = Syne({
@@ -20,7 +19,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <body className={syne.className}>
                 <Header />
                 <main>{children}</main>
-                <Footer />
                 <Toaster />
             </body>
         </html>
