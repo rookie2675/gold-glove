@@ -2,7 +2,7 @@
     height: 100%;
     display: flex;
     align-items: center;
-    background-size: contain;
+    background-size: 80%;
     background-position: right;
     background-repeat: no-repeat;
     background-image: url('/background.jpg');
