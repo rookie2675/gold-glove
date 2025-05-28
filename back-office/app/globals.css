@@ -69,3 +69,13 @@ button:hover {
     color: var(--charcoal);
     background-color: var(--gold);
 }
+
+[data-sonner-toast][data-type='error'] {
+    background-color: var(--error) !important;
+    color: white !important;
+    border-color: var(--error) !important;
+}
+
+[data-sonner-toast][data-type='error'] [data-icon] {
+    color: white !important;
+}

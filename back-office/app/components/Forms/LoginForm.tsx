@@ -1,21 +1,20 @@
 'use client';
-
 import styles from './LoginForm.module.css';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '../../schemas/login-form-schema';
 import ErrorIcon from '../Icons/ErrorIcon';
 import { LoginFormFields } from '../../types/login-form-fields';
-import { AuthenticationService } from '../../services/authentication-service';
 import { useRouter } from 'next/navigation';
+import { login } from '@/app/services/authentication-service';
+import { toast } from 'sonner';
 
 export default function LoginForm() {
     const router = useRouter();
-
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isSubmitting },
         getValues,
     } = useForm<LoginFormFields>({
         resolver: yupResolver(loginSchema),
@@ -23,11 +22,19 @@ export default function LoginForm() {
     });
 
     async function submitForm() {
-        const values = getValues();
-        const success = await AuthenticationService.login(values);
+        try {
+            const values = getValues();
+            const success = await login(values);
 
-        if (success) {
-            router.push('/');
+            if (success) {
+                toast.success('Login realizado com sucesso!');
+                router.push('/');
+            } else {
+                toast.error('Email ou senha incorretos. Tente novamente.');
+            }
+        } catch (error) {
+            toast.error('Erro ao fazer login. Tente novamente mais tarde.');
+            console.error('Login error:', error);
         }
     }
 
@@ -61,7 +68,9 @@ export default function LoginForm() {
                     {errors.password && <ErrorIcon message={errors.password.message as string} />}
                 </div>
             </div>
-            <button type="submit">LOGIN</button>
+            <button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? 'ENTRANDO...' : 'LOGIN'}
+            </button>
         </form>
     );
 }
