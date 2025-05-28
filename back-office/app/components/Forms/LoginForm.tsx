@@ -6,12 +6,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '../../schemas/login-form-schema';
 import ErrorIcon from '../Icons/ErrorIcon';
 import { LoginFormFields } from '../../types/login-form-fields';
-import { useRouter } from 'next/navigation';
 import { login } from '@/app/services/authentication-service';
 import { toast } from 'sonner';
 
 export default function LoginForm() {
-    const router = useRouter();
     const {
         register,
         handleSubmit,
@@ -29,7 +27,7 @@ export default function LoginForm() {
 
             if (success) {
                 toast.success('Login realizado com sucesso!');
-                router.push('/customers');
+                window.location.href = '/customers';
             } else {
                 toast.error('Email ou senha incorretos. Tente novamente.');
             }

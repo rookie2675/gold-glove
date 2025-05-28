@@ -23,7 +23,9 @@ export default async function middleware(req: NextRequest) {
         return NextResponse.redirect(new URL('/login', req.nextUrl));
     }
 
-    return NextResponse.next();
+    const headers = new Headers(req.headers);
+    headers.set('x-current-path', path);
+    return NextResponse.next({ headers });
 }
 
 export const config = {
