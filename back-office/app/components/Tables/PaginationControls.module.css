@@ -6,31 +6,35 @@
     justify-content: center;
 }
 
-.numbers {
+.numbersContainer {
     gap: 0.5rem;
     display: flex;
+    align-items: center;
 }
 
-.pageNumber {
+.number {
     padding: 0;
     border: none;
     color: var(--white);
+    background-color: transparent;
 }
 
-.pageNumber:hover {
+.number:hover {
+    cursor: pointer;
     color: var(--gold);
     background-color: transparent;
 }
 
-.pageNumber.activePage {
+.number.activePage {
     color: var(--gold);
 }
 
 .paginationButton {
+    padding: 0;
     border: none;
+    display: flex;
     cursor: pointer;
     color: var(--white);
-    padding: 0;
     background-color: transparent;
 }
 

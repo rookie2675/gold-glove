@@ -12,12 +12,12 @@ export default function PaginationControls({ table }: Props) {
             <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className={styles.paginationButton} aria-label="Previous page">
                 <ChevronLeftIcon className={styles.paginationIcon} />
             </button>
-            <div className={styles.numbers}>
+            <div className={styles.numbersContainer}>
                 {Array.from({ length: table.getPageCount() }, (_, i) => i + 1).map((pageNumber) => (
                     <button
                         key={pageNumber}
                         onClick={() => table.setPageIndex(pageNumber - 1)}
-                        className={`${styles.pageNumber} ${table.getState().pagination.pageIndex + 1 === pageNumber ? styles.activePage : ''}`}
+                        className={`${styles.number} ${table.getState().pagination.pageIndex + 1 === pageNumber ? styles.activePage : ''}`}
                         aria-label={`Page ${pageNumber}`}
                         aria-current={table.getState().pagination.pageIndex + 1 === pageNumber ? 'page' : undefined}
                     >
