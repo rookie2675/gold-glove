@@ -1,0 +1,17 @@
+.addButton {
+    border: none;
+    display: flex;
+    width: 1.5rem;
+    height: 1.5rem;
+    color: white;
+    cursor: pointer;
+    align-items: center;
+    margin-left: 0.5rem;
+    justify-content: center;
+    background-color: var(--charcoal);
+    transition: background-color 0.2s;
+}
+
+.addButton:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
