@@ -1,46 +1,60 @@
-import { CustomerFormData } from '../types/customer';
+import { Customer } from '@prisma/client';
 
-export async function createCustomer(data: CustomerFormData) {
-    const response = await fetch('/api/customers', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    });
+export class CustomerService {
+    private static instance: CustomerService;
+    private static readonly BASE_URL: string = '/api/customers';
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to create customer');
+    private constructor() {}
+
+    public static getInstance(): CustomerService {
+        if (!CustomerService.instance) {
+            CustomerService.instance = new CustomerService();
+        }
+        return CustomerService.instance;
     }
 
-    return await response.json();
-}
+    public async createCustomer(data: Customer): Promise<Customer> {
+        const response = await fetch(CustomerService.BASE_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
 
-export async function updateCustomer(id: string, data: CustomerFormData) {
-    const response = await fetch(`/api/customers/${id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    });
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to create customer');
+        }
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to update customer');
+        return await response.json();
     }
 
-    return await response.json();
-}
+    public async updateCustomer(id: string, data: Customer): Promise<Customer> {
+        const response = await fetch(`${CustomerService.BASE_URL}/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
 
-export async function deleteCustomer(id: string) {
-    const response = await fetch(`/api/customers/${id}`, {
-        method: 'DELETE',
-    });
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to update customer');
+        }
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to delete customer');
+        return await response.json();
+    }
+
+    public async deleteCustomer(id: string): Promise<void> {
+        const response = await fetch(`${CustomerService.BASE_URL}/${id}`, {
+            method: 'DELETE',
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to delete customer');
+        }
     }
 }
