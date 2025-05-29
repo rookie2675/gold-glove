@@ -1,18 +1,22 @@
 .header {
-    font-size: 0.8rem;
-    font-weight: bold;
     padding-left: 2rem;
     padding-right: 2rem;
     background-color: var(--charcoal);
+}
+
+.content {
+    display: flex;
+    align-items: center;
 }
 
 .logoContainer {
     margin-right: 2rem;
 }
 
-.headerContent {
+.logoLink {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .navigationLinksContainer {
@@ -21,7 +25,5 @@
 }
 
 .logoutContainer {
-    display: flex;
     margin-left: auto;
-    justify-content: right;
 }

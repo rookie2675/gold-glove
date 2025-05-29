@@ -1,41 +1,27 @@
-'use client';
+'use server';
+
+import styles from '@/app/components/Header/Header.module.css';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import Image from 'next/image';
-import styles from './Header.module.css';
-import { JSX } from 'react';
-import { logout } from '@/app/services/authentication-service';
-import NavigationLink from './NavigationLink';
+import LogoutButton from '@/app/components/Header/LogoutButton';
+import NavigationLink from '@/app/components/Header/NavigationLink';
 
-function isPathActive(pathname: string, path: string): boolean {
-    return pathname === path;
-}
-
-export default function Header(): JSX.Element {
-    const pathname: string = usePathname();
-
-    async function onLogoutButtonClick() {
-        await logout();
-        window.location.href = '/login';
-    }
-
+export default async function Header(): Promise<React.JSX.Element> {
     return (
         <header className={styles.header}>
-            <div className={styles.headerContent}>
+            <div className={styles.content}>
                 <div className={styles.logoContainer}>
-                    <Link href={'/'}>
-                        <Image src="/logo-with-text.svg" alt="Gym Logo" width={150} height={100} priority />
+                    <Link href={'/'} className={styles.logoLink}>
+                        <Image src="/logo-with-text.svg" alt="Gym Logo" width={140} height={85} priority />
                     </Link>
                 </div>
                 <nav className={styles.navigationLinksContainer}>
-                    <NavigationLink href="/customers" label="CLIENTES" isPathActive={isPathActive(pathname, '/customers')} />
-                    <NavigationLink href="/employees" label="EMPREGADOS" isPathActive={isPathActive(pathname, '/employees')} />
+                    <NavigationLink href="/customers" label="CLIENTES" />
+                    <NavigationLink href="/employees" label="EMPREGADOS" />
                 </nav>
                 <div className={styles.logoutContainer}>
-                    <button onClick={onLogoutButtonClick} aria-label="Logout">
-                        LOGOUT
-                    </button>
+                    <LogoutButton />
                 </div>
             </div>
         </header>
